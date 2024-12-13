@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Корзина</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.update-quantity-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const url = form.action;
+                    const formData = new FormData(form);
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert(data.error || 'Не удалось обновить количество.');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <h1>Ваша корзина</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Продукт</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Итог</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>
+                    <form class="update-quantity-form" method="post" action="{% url 'update_cart_quantity' item.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                        <button type="submit">Обновить</button>
+                    </form>
+                </td>
+                <td>{{ item.product.cost }} ₽</td>
+                <td>{{ item.product.cost|floatformat:2 }} ₽</td>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Итоговая сумма: {{ total_cost }} ₽</h2>
+    <a href="{% url 'checkout' %}">Оформить заказ</a>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

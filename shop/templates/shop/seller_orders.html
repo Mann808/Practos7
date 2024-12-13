@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Заказы продавца</title>
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <h1>Управление заказами</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID заказа</th>
+                <th>Пользователь</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.user_name }}</td>
+                <td>{{ order.date_order }}</td>
+                <td>{{ order.status.status }}</td>
+                <td>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <select name="status">
+                            {% for status in statuses %}
+                            <option value="{{ status.status }}" {% if status == order.status %}selected{% endif %}>
+                                {{ status.status }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Обновить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

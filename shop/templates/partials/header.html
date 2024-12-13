@@ -1,0 +1,25 @@
+{% load static %}
+<header class="header">
+    <div class="header-container">
+        <h1 class="logo">
+            <a href="{% url 'index' %}" class="logo-link">MedusaShop</a>
+        </h1>
+        <nav class="nav-bar">
+            <a href="{% url 'index' %}">Главная</a>
+            <a href="{% url 'profile' %}">Профиль</a>
+            <a href="{% url 'buyer_dashboard' %}">Товары</a>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'cart' %}">Корзина</a>
+            
+                <a href="{% url 'logout' %}">Выход</a>
+            {% else %}
+                <a href="{% url 'login' %}">Вход</a>
+                <a href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+            <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </nav>
+        <script src="{% static 'js/theme-toggle.js' %}" defer></script>
+    </div>
+</header>

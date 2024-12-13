@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Вход</title>
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <h1>Войти в аккаунт</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            Имя пользователя: <input type="text" name="username">
+        </p>
+        <p>
+            Пароль: <input type="password" name="password">
+        </p>
+        <button type="submit">Войти</button>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <a href="{% url 'register' %}">Нет аккаунта? Создайте его!</a>
+    </form>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

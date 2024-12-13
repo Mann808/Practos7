@@ -1,0 +1,26 @@
+name: Синтаксическая проверка проекта на Django
+on:
+  push:
+    branches:
+      - main
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+   
+    steps:
+    - uses: actions/checkout@v3
+   
+    - name: Установка Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.11'  
+   
+    - name: Установка зависимостей
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+   
+    - name: Проверка синтаксиса Python
+      run: |
+        pip install pylint
+        pylint **/*.py

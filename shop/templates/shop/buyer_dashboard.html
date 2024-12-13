@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель покупателя</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+    
+            // Ждем 1 секунду, прежде чем скрыть заставку
+            setTimeout(() => {
+                loadingScreen.style.display = 'none'; // Скрываем заставку
+            }, 1000);
+        });
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const url = button.dataset.url;
+                    fetch(url, { method: 'GET' })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert(data.message);
+                            } else {
+                                alert('Не удалось добавить товар в корзину.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Ошибка добавления в корзину:', error);
+                            alert('Произошла ошибка при добавлении товара в корзину.');
+                        });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="spinner"></div>
+    </div>
+    {% include 'partials/header.html' %}
+   
+    
+    <div class="container">
+        <h1>Продукты</h1>
+
+        <!-- Панель сортировки -->
+        <form method="get" class="search-filter-form">
+            <select name="sort_by">
+                <option value="">Сортировка</option>
+                <option value="name" {% if request.GET.sort_by == "name" %}selected{% endif %}>По названию</option>
+                <option value="cost" {% if request.GET.sort_by == "cost" %}selected{% endif %}>По цене</option>
+                <option value="category" {% if request.GET.sort_by == "category" %}selected{% endif %}>По категории</option>
+            </select>
+            <select name="order">
+                <option value="asc" {% if request.GET.order == "asc" %}selected{% endif %}>По возрастанию</option>
+                <option value="desc" {% if request.GET.order == "desc" %}selected{% endif %}>По убыванию</option>
+            </select>
+            <button type="submit">Применить</button>
+        </form>
+
+        <div class="card-grid">
+            {% for product in products %}
+            <div class="card">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img src="https://via.placeholder.com/300x200" alt="Изображение отсутствует">
+                {% endif %}
+                <div class="card-content">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p><strong>{{ product.cost }} ₽</strong></p>
+                </div>
+                <div class="card-footer">
+                    {% with product.warehouse_records.first as stock %}
+                        {% if stock and stock.quantity > 0 %}
+                            <button class="add-to-cart-btn" data-url="{% url 'add_to_cart' product.id %}">Добавить в корзину</button>
+                        {% else %}
+                            <p>Нет в наличии</p>
+                        {% endif %}
+                    {% endwith %}
+                    <a href="{% url 'cr_review' product.id %}">Оставить отзыв</a>
+                    <a href="{% url 'product_reviews' product.id %}">Отзывы</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% include 'partials/footer.html' %}
+</body>
+
+
+</html>

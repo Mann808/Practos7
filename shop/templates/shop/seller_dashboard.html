@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Панель продавца</title>
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <h1>Панель продавца</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'seller_orders' %}">Управление заказами</a></li>
+            <li><a href="{% url 'logout' %}">Выйти</a></li>
+        </ul>
+    </nav>
+    <h2>Управление продуктами</h2>
+    <ul>
+        {% for product in products %}
+        <li>
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100px; height: auto;">
+            {% else %}
+            <img src="https://via.placeholder.com/100x100" alt="Изображение отсутствует">
+            {% endif %}
+            {{ product.name }} - {{ product.description }} - {{ product.cost }} ₽
+        </li>
+        {% endfor %}
+    </ul>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

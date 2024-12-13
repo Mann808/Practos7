@@ -1,0 +1,8 @@
+{% include 'partials/header.html' %}
+<h3>Оставьте отзыв о продукте: {{ product.name }}</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Оставить отзыв</button>
+</form>
+{% include 'partials/footer.html' %}

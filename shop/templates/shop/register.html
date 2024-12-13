@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Регистрация</title>
+    <script>
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function generateRandomCredentials() {
+            const usernameField = document.getElementById('id_user_name');
+            const passwordField = document.getElementById('id_password');
+            const confirmPasswordField = document.getElementById('id_confirm_password');
+            
+            const randomUsername = generateRandomString(8);
+            const randomPassword = generateRandomString(12);
+
+            usernameField.value = randomUsername;
+            passwordField.value = randomPassword;
+            confirmPasswordField.value = randomPassword;
+        }
+
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('id_password');
+            const confirmPasswordField = document.getElementById('id_confirm_password');
+
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            confirmPasswordField.type = type;
+        }
+    </script>
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <h1>Регистрация</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="id_user_name">Имя пользователя:</label>
+            <input type="text" id="id_user_name" name="user_name" required>
+        </div>
+        <div>
+            <label for="id_email">Электронная почта:</label>
+            <input type="email" id="id_email" name="email" required>
+        </div>
+        <div>
+            <label for="id_password">Пароль:</label>
+            <input type="password" id="id_password" name="password" required>
+        </div>
+        <div>
+            <label for="id_confirm_password">Подтвердите пароль:</label>
+            <input type="password" id="id_confirm_password" name="confirm_password" required>
+        </div>
+        <div>
+            <button type="button" onclick="togglePasswordVisibility()">Показать/Скрыть пароли</button>
+            <button type="button" onclick="generateRandomCredentials()">Сгенерировать логин и пароль</button>
+            <button type="submit">Зарегистрироваться</button>
+        </div>
+    </form>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

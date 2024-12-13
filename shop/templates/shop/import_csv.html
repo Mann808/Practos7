@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Импорт заказов из CSV</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <div class="container">
+        <h1>Импорт заказов из CSV</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="csv_file">Выберите CSV-файл:</label>
+            <input type="file" id="csv_file" name="csv_file" accept=".csv">
+            <button type="submit">Загрузить</button>
+        </form>
+    </div>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

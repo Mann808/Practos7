@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Панель пользователя</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <h1>Добро пожаловать, {{ user.user_name }}!</h1>
+    <p>Ваш email: {{ user.email }}</p>
+    <a href="/logout/">Выйти</a>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

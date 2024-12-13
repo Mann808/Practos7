@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load custom_filters %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Управление {{ table_name|capfirst }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <div class="container">
+        <h1>Управление {{ table_name|capfirst }}</h1>
+
+        <!-- Панель поиска и фильтрации -->
+        <form method="get" class="search-filter-form">
+            <input type="text" name="search" value="{{ search_query }}" placeholder="Поиск...">
+            <select name="filter_field">
+                <option value="">Фильтровать по...</option>
+                {% for field in fields %}
+                <option value="{{ field }}" {% if filter_field == field %}selected{% endif %}>
+                    {% if objects.0 %}
+                        {{ objects.0|verbose_name:field }}
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                </option>
+                
+                {% endfor %}
+            </select>
+            <input type="text" name="filter_value" value="{{ filter_value }}" placeholder="Значение фильтра">
+            <button type="submit">Применить</button>
+        </form>
+
+        <!-- Кнопка добавления -->
+        <div class="add-button-wrapper">
+            <a class="button" href="{% url 'add_object' table_name=table_name %}">Добавить новую запись</a>
+        </div>
+
+        <!-- Таблица данных -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        {% for field in fields %}
+                        <th>{{ objects.0|verbose_name:field }}</th>
+                        {% endfor %}
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in objects %}
+                    <tr>
+                        {% for field in fields %}
+                        <td>
+                            {% if field == "cost" %}
+                            {{ obj.cost|floatformat:2 }} ₽
+                            {% elif field == "image" and obj.image %}
+                            <img src="{{ obj.image.url }}" alt="Image" class="table-image">
+                            {% else %}
+                            {{ obj|getattr_filter:field|default_if_none:"-" }}
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                        <td class="actions">
+                            <a href="{% url 'edit_object' table_name=table_name object_id=obj.id %}">Редактировать</a>
+                            <a href="{% url 'delete_object' table_name=table_name object_id=obj.id %}">Удалить</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Ссылка назад -->
+        <a class="back-link" href="{% url 'admin_console' %}">Назад в административную панель</a>
+    </div>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

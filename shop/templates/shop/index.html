@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Добро пожаловать!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+
+    <div class="container">
+        <!-- Приветственное сообщение -->
+        <div class="welcome-container">
+            <h1>Добро пожаловать на MedusaShop!</h1>
+            <p>MedusaShop — это платформа, где вы найдете лучшие товары для вашего удобства. У нас есть всё, что вам нужно, с быстрым обслуживанием и отличными ценами.</p>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="content-block">
+            <h2>Что мы предлагаем?</h2>
+            <p>В нашем магазине вы найдете товары по самым выгодным ценам. Мы предлагаем удобный интерфейс, легкое управление заказами и множество категорий на выбор.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>Как начать?</h2>
+            <p>Создайте аккаунт, выберите нужные товары и оформите заказ. Мы позаботимся о доставке и предоставим вам лучшие впечатления от покупок.</p>
+        </div>
+
+        
+    </div>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>

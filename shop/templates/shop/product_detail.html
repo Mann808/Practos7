@@ -1,0 +1,8 @@
+{% include 'partials/header.html' %}
+<h3>Отзывы:</h3>
+{% for review in product.review_set.all %}
+    <p><strong>{{ review.user.user_name }}</strong> ({{ review.rating }}/5): {{ review.content }}</p>
+{% endfor %}
+
+<a href="{% url 'add_review' product.id %}">Добавить отзыв</a>
+

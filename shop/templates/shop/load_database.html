@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <meta charset="UTF-8">
+    <title>Загрузить базу данных</title>
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <h1>Загрузка базы данных</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="backup_file">Выберите файл резервной копии:</label>
+        <input type="file" name="backup_file" id="backup_file" required>
+        <button type="submit">Загрузить</button>
+    </form>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

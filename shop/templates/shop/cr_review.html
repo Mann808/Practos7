@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оставить отзыв</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <h1>Оставить отзыв для {{ product.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label>Ваш отзыв:</label>
+            {{ form.content }}
+        </div>
+        <div>
+            <label>Рейтинг:</label>
+            <div>
+                {% for i in "12345" %}
+                <label>
+                    <input type="radio" name="rating" value="{{ i }}" {% if forloop.first %}checked{% endif %}>
+                    {{ i }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit">Отправить</button>
+    </form>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Запрос в поддержку отправлен</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <h1>Ваш запрос в поддержку отправлен.</h1>
+    <a href="{% url 'dashboard' %}">Вернуться на панель управления</a>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

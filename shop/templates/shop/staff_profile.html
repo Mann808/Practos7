@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Профиль сотрудника</title>
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    
+    <div class="container">
+        <h1>Добро пожаловать, {{ user_name }}!</h1>
+        <h2>Ваша роль: {{ role_name }}</h2>
+
+        <div class="content-block">
+            <h3>Ваши задачи:</h3>
+            <p>{{ tasks }}</p>
+        </div>
+
+        <div class="content-block">
+            <h3>Ваши права:</h3>
+            <p>{{ permissions }}</p>
+        </div>
+
+        <a class="button" href="{% url 'logout' %}">Выйти из аккаунта</a>
+    </div>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>

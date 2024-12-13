@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Панель склада</title>
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+    <h1>Панель склада</h1>
+    <h2>Продукты на складе</h2>
+
+    {% if products_on_warehouse %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Продукт</th>
+                    <th>Количество</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in products_on_warehouse %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <form method="post" action="{% url 'update_stock' item.product.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" placeholder="Введите количество" required>
+                            <button type="submit" name="action" value="add">Добавить</button>
+                            <button type="submit" name="action" value="remove">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>На складе нет доступных продуктов.</p>
+    {% endif %}
+    <li><a href="{% url 'logout' %}">Выйти</a></li>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

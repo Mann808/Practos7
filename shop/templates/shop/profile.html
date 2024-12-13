@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <meta charset="UTF-8">
+    <title>Профиль пользователя</title>
+    
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <h1>Профиль {{ user.user_name }}</h1>
+    <h2>Ваши заказы:</h2>
+    <div>
+        {% for order in orders %}
+        <div class="qr-container">
+            <img src="{% url 'generate_qr_code' order.id %}" alt="QR Code for Order {{ order.id }}">
+            <div class="qr-info">
+                <p><strong>ID заказа:</strong> {{ order.id }}</p>
+                <p><strong>Дата:</strong> {{ order.date_order }}</p>
+                <p><strong>Стоимость:</strong> {{ order.finish_cost }} ₽</p>
+                <p><strong>Статус:</strong> {{ order.status.status }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

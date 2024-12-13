@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Оформление заказа</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <div class="container">
+        <h1>Оформление заказа</h1>
+        <form method="POST" action="{% url 'checkout' %}">
+            {% csrf_token %}
+            <label>
+                Ваше имя:
+                <input type="text" name="name" value="{{ user.user_name }}" readonly>
+            </label>
+            <label>
+                Ваш email:
+                <input type="email" name="email" value="{{ user.email }}" readonly>
+            </label>
+            <label>
+                Итоговая сумма:
+                <input type="text" name="total_cost" value="{{ total_cost }} ₽" readonly>
+            </label>
+            <label>
+                Адрес доставки:
+                <input type="text" name="address" placeholder="Введите адрес" required>
+            </label>
+            <label>
+                Способ оплаты:
+                <select name="payment_method">
+                    {% for payment in payment_methods %}
+                    <option value="{{ payment.id }}">{{ payment.payment_method }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button type="submit">Подтвердить заказ</button>
+        </form>
+    </div>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

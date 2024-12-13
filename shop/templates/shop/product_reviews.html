@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <meta charset="UTF-8">
+    <title>Отзывы о {{ product.name }}</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <h1>Отзывы о {{ product.name }}</h1>
+    <p>Средний рейтинг: {{ average_rating }}</p>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <p><strong>{{ review.user.user_name }}</strong>: {{ review.content }}</p>
+                <p>Рейтинг: {{ review.rating }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'buyer_dashboard' %}">Вернуться</a>
+    {% include 'partials/footer.html' %}
+</body>
+</html>

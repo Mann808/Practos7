@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>Административная панель</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% include 'partials/ad_header.html' %}
+
+    <div class="container">
+        <h1>Административная панель</h1>
+        <div class="card-grid admin-links">
+           
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='users' %}">Управление пользователями</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='products' %}">Управление продуктами</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='categories' %}">Управление категориями</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='orders' %}">Управление заказами</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='roles' %}">Управление ролями</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='payment_methods' %}">Управление способами оплаты</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='warehouses' %}">Управление складами</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='reviews' %}">Управление отзывами</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='products_on_warehouse' %}">Управление товарами на складах</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='support_messages' %}">Управление сообщениями поддержки</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'manage_table' table_name='what_in_order' %}">Управление содержимым заказов</a>
+            </div>
+
+            
+            <div class="card">
+                <a href="{% url 'save_database' %}">Сохранить базу данных</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'load_database' %}">Загрузить базу данных</a>
+            </div>
+
+           
+            <div class="card">
+                <a href="{% url 'sales_chart' %}">Просмотр графиков продаж</a>
+            </div>
+
+            <div class="card">
+                <a href="{% url 'import_orders' %}">Импорт заказов из CSV</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'export_sales_csv' %}">Скачать отчет о продажах (CSV)</a>
+            </div>
+            
+
+        
+            <div class="card">
+                <a href="{% url 'logout' %}">Выйти из аккаунта</a>
+            </div>
+            <div class="card">
+                <a href="{% url 'export_sales' %}">Скачать отчет о продажах</a>
+            </div>
+          
+
+        </div>
+    </div>
+    {% include 'partials/footer.html' %}
+</body>
+</html>
