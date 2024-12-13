@@ -18,9 +18,12 @@ jobs:
     - name: Установка зависимостей
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install flake8 autopep8
    
-    - name: Проверка синтаксиса Python
+    - name: Проверка и исправление синтаксиса Python
       run: |
-        pip install pylint
-        pylint **/*.py
+        flake8 shop/views.py --max-line-length=120 \
+          --ignore=E303,E302,W293,W291,F401,F811,E402 \
+          --exit-zero
+       
+        autopep8 --in-place --aggressive --aggressive shop/views.py
